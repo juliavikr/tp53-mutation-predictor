@@ -205,3 +205,25 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Data files (large/raw data should not be committed)
+data/raw/
+*.csv
+*.h5
+*.hdf5
+*.parquet
+*.feather
+
+# Model artifacts
+models/
+*.pkl
+*.joblib
+*.pt
+*.pth
+
+# Environment
+.env
