@@ -1,0 +1,19 @@
+name: tp53-predictor
+channels:
+  - pytorch
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.11
+  - jupyter
+  - pandas
+  - numpy
+  - matplotlib
+  - seaborn
+  - scikit-learn
+  - imbalanced-learn
+  - xgboost
+  - lightgbm
+  - pytorch
+  - requests
+  - pip
