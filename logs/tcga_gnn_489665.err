@@ -1,0 +1,4 @@
+/home/3415496/.conda/envs/tp53-predictor/lib/python3.11/site-packages/sklearn/metrics/_ranking.py:442: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+/home/3415496/.conda/envs/tp53-predictor/lib/python3.11/site-packages/sklearn/metrics/_ranking.py:1131: UserWarning: No positive class found in y_true, recall is set to one for all thresholds.
+  warnings.warn(

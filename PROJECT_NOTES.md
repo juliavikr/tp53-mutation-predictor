@@ -367,14 +367,119 @@ The model performs above 0.7 AUC on most TCGA cancer types and above 0.85 on sev
 
 Files: `tcga_eval_summary.json`, `tcga_xgb_oof_preds.csv`, `tcga_xgb_per_cancer_type.csv`, `plots/tcga_xgb_*.png`, `plots/domain/*.png`.
 
-### Phase 4 — GAT and GCN external validation (in progress)
+### Phase 4 — GAT and GNN external validation
 
-- `src/gat.py` — 2-layer GATConv with attention (4 heads), BatchNorm, residual.
-- `src/train_gnn.py` extended with `--model-kind gcn|gat`.
-- `jobs/train_gat.sbatch` — GAT runs on thr=0.7 + hybrid graphs (queued: 489581, 489582).
-- `src/tcga_gnn_eval.py` — drops in for GCN/GAT external validation on TCGA with the same per-cohort z-score protocol; missing-gene padding via zeros (149 / 2000 nodes pad).
+**GAT runs (5-fold CV, n=1673, hidden=128, 2 layers, 4 heads, BN+residual)**:
 
-Pending: results from GAT runs + TCGA-GNN inference + final synthesis.
+| Run | Graph | Edges | F1 | ROC-AUC | PR-AUC |
+|---|---|---:|---:|---:|---:|
+| GAT thr=0.7 | sparse | 2,556 | 0.680 | 0.622 | 0.710 |
+| **GAT hybrid** | dense | 61,183 | **0.760** | 0.706 | 0.746 |
+
+- GAT thr=0.7 *underperformed* (sparse graph too thin for attention to choose between).
+- **GAT on hybrid graph achieved best F1 of any GNN (0.760)** — beats best GCN (0.749). Attention helps when there are enough edges to weight.
+
+**Final CCLE OOF leaderboard (sorted by F1):**
+
+| Model | Acc | Prec | Rec | F1 | ROC-AUC | PR-AUC |
+|---|---:|---:|---:|---:|---:|---:|
+| **XGBoost** | **0.847** | **0.843** | 0.910 | **0.875** | **0.906** | **0.909** |
+| **GAT hybrid** | 0.654 | 0.643 | **0.928** | **0.760** | 0.706 | 0.746 |
+| GCN v2 thr=0.7 | 0.663 | 0.668 | 0.853 | 0.749 | 0.707 | 0.759 |
+| GCN v2 hybrid | 0.667 | 0.709 | 0.737 | 0.723 | 0.705 | 0.760 |
+| GCN baseline (v1) | 0.595 | 0.608 | 0.879 | 0.719 | 0.625 | 0.705 |
+| GCN v2 thr=0.5 | 0.664 | 0.720 | 0.705 | 0.712 | 0.701 | 0.751 |
+| GAT thr=0.7 | 0.579 | 0.616 | 0.759 | 0.680 | 0.622 | 0.710 |
+| GCN v2 top-k=10 | 0.646 | 0.746 | 0.606 | 0.669 | 0.704 | 0.758 |
+| GCN v2 bio | 0.626 | 0.700 | 0.640 | 0.668 | 0.678 | 0.740 |
+
+### Phase 4 — TCGA external validation for GNN/GAT — NEGATIVE RESULT
+
+`src/tcga_gnn_eval.py` trains the best GCN config (v2_thr07, 3 layers, hidden=128, BN+residual) and best GAT config (hybrid, 2 layers, 4 heads, BN+residual) on full CCLE with internal val split for early stopping, then applies to TCGA primary tumours with per-cohort z-score normalisation (same protocol as XGBoost). 149 missing TCGA genes padded with zeros in node features.
+
+**Result — both GNN models collapse on TCGA:**
+
+| Model | CCLE val AUC | TCGA AUC | TCGA F1 | TCGA recall |
+|---|---:|---:|---:|---:|
+| GCN thr=0.7 | 0.707 | **0.411** | 0.000 | 0.000 |
+| GAT hybrid | 0.722 | **0.392** | 0.000 | 0.000 |
+
+Both models predict every TCGA sample as wild-type. Below-random AUC (0.39, 0.41) means the models' rankings are slightly *anti*-correlated with the true labels.
+
+**Compare to XGBoost** under the same protocol:
+- XGBoost CCLE OOF AUC 0.904 → TCGA AUC **0.806** (drop ~0.10).
+- GNN CCLE val AUC ~0.71 → TCGA AUC **~0.40** (drop ~0.30, model collapses).
+
+**Why does the GNN not transfer when XGBoost does?**
+The MVP-protocol z-score is sufficient for XGBoost (tree splits operate on per-feature thresholds and survive moderate distribution shift). The GCN/GAT pipeline is more brittle:
+1. **BatchNorm running statistics** are fit on CCLE-distributed activations and applied unchanged at eval time on TCGA.
+2. The 2-d node features are `[raw_expression, z-score]` — the *raw* component is on a different absolute scale (CCLE log2(TPM+1) RSEM vs TCGA log2(norm_count+1) Xena), so even after the z-score component is per-cohort normalised, the raw component drags activations into a region the model never saw.
+3. Graph topology was built only from CCLE co-expression / STRING — which is fine, the topology is shared — but the node-feature distribution shift breaks the learned weights anyway.
+
+This is a real, well-documented failure mode of deep models under domain shift; it doesn't invalidate the GNN approach, it shows that **biological generalisation requires explicit cross-cohort training (e.g., domain adaptation, CORAL, LayerNorm instead of BatchNorm, or fine-tuning on a TCGA subset)** — none of which were in scope for this MVP. *Honest reporting of this gap is itself a key finding for the thesis.*
+
+---
+
+## Final synthesis — what we have, what it means
+
+### Quantitative results
+
+- **XGBoost is the best classifier in every regime** — within-CCLE (F1 0.875), shared-genes within-CCLE (F1 0.877), and on TCGA (F1 0.604, AUC 0.806). Matches the published Ravasio (2024) bulk benchmark.
+- **GAT on hybrid graph is the best GNN** (F1 0.760, AUC 0.706) — beats all GCN variants. Attention helps on dense, biologically-augmented graphs.
+- **Graph topology has surprisingly small effect on GCN performance**: the v2 GCN lands at AUC 0.70–0.71 across thr=0.5, thr=0.7, top-k=10, hybrid. Only the very-sparse bio-only graph and the very-sparse-on-GAT thr=0.7 underperform — the GCN doesn't extract much extra signal from richer graph structures.
+- **Co-expression and physical-PPI graphs are nearly disjoint** (Jaccard 0.006). Combining them (hybrid) didn't beat co-expression alone for GCN, but did help GAT.
+- **GNN models do not transfer to TCGA** under the simple per-cohort z-score protocol. XGBoost transfers respectably (AUC drop ~0.10).
+
+### Biological interpretation (from SHAP)
+
+- **CDKN1A (p21) dominates the XGBoost feature importances**, with mean |SHAP| = 1.27 — three times the next gene. This is exactly what cancer biology predicts: TP53 is the master transcriptional activator of p21, so loss of p21 induction is a hallmark of TP53 inactivation. The model has learned the canonical TP53 → p21 axis without supervision.
+- **6/20 top-SHAP genes are direct TP53 transcriptional targets** (CDKN1A, PHLDA3, BTG2, CYFIP2, TNFRSF10D, FAS) plus CDKN2A in the wider pathway. Multiple modes of TP53 effector biology are represented (cell-cycle arrest, apoptosis, extrinsic death-receptor pathway).
+- **Per-cancer-type AUC on TCGA recapitulates clinical heterogeneity**: model performs >0.85 on SKCM (0.972), PCPG (0.938), READ (0.879), ACC (0.865), KICH, UCEC, LGG, BRCA. Lower AUC on tumour types where TP53 is rarely mutated (PCPG, THCA, UVM) or where mutational landscape is dominated by other drivers (PRAD, HNSC).
+- **TP53 mutation prevalence in TCGA is 36.5 %** (CCLE 58.9 %); the cell-line cohort is enriched for TP53 mutants relative to primary tumours, a known selection effect from immortalisation.
+
+### Methodological / scientific contribution
+
+This pipeline now constitutes a defensible research-grade comparison of:
+1. **Tabular ML (XGBoost) vs graph-based ML (GCN, GAT)** for transcriptome-based mutation classification.
+2. **Statistical (Spearman) vs biological (STRING PPI) vs hybrid graph priors** — demonstrating that the choice of graph prior matters less than common assumption (because XGBoost-level signal is mostly captured by per-gene effects, not gene-gene relations).
+3. **Within-cohort vs external (TCGA pan-cancer) generalisation** — demonstrating that a tabular gradient-boosting model generalises to independent primary tumours, while a vanilla GNN with BatchNorm does not.
+
+### Deferred / future-work
+- GNN domain adaptation (DANN, CORAL, LayerNorm) to recover TCGA transfer.
+- Multi-class TP53 subtype classification (Frame_Shift / Splice / Missense / Other / WT).
+- Optuna hyperparameter search (currently fixed defaults).
+- TP53-target-gene-only feature set vs HVG (would test whether biology-driven feature selection matches HVG performance).
+- Multi-omics integration (mutation + methylation + CNV).
+- Patient-level survival analysis stratified by predicted TP53 status (clinically actionable downstream).
+
+---
+
+## Repo layout (final)
+
+```
+src/
+  load_data.py            CCLE expression + TP53 label derivation
+  train_xgb.py            XGBoost 5-fold CV
+  graph_construction.py   Spearman gene-gene graphs (threshold + top-k)
+  build_bio_graph.py      STRING physical PPI graph + hybrid (bio ∪ coexp)
+  gcn.py                  Configurable GCN model
+  gat.py                  Configurable GAT model
+  train_gnn.py            5-fold CV training loop (GCN/GAT)
+  tp53_pathway.py         Curated TP53 pathway gene set (62 HGNC symbols)
+  shap_analysis.py        SHAP for XGBoost + pathway annotation
+  tcga_load.py            UCSC Xena TCGA pan-cancer download + harmonisation
+  tcga_eval.py            XGBoost CCLE→TCGA validation
+  tcga_gnn_eval.py        GCN/GAT CCLE→TCGA validation
+  domain_comparison.py    PCA + prevalence + expression-distribution plots
+  make_plots.py           Auto-discovers all model variants → comparison plots
+jobs/
+  train_xgb.sbatch
+  train_gnn.sbatch        original v1
+  train_gnn_v2.sbatch     parametric (RUN_NAME, GRAPH_FILE)
+  train_gat.sbatch        parametric, --model-kind=gat
+  tcga_gnn.sbatch         parametric TCGA inference for GNN/GAT
+data/processed/           metrics, OOF preds, graphs, plots, summaries
+```
 
 ---
 

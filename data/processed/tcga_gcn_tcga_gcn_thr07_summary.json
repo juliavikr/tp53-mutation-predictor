@@ -1,0 +1,19 @@
+{
+  "model_kind": "gcn",
+  "run_name": "tcga_gcn_thr07",
+  "graph_file": "data/processed/gene_graph_thr07.npz",
+  "feature_set": "expr_zscore",
+  "n_layers": 3,
+  "hidden_dim": 128,
+  "best_val_auc_ccle": 0.70703227499344,
+  "tcga_metrics": {
+    "n": 8424,
+    "accuracy": 0.6347340930674265,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "roc_auc": 0.41089153713741783,
+    "pr_auc": 0.30995105121905253,
+    "positive_rate": 0.3652659069325736
+  }
+}

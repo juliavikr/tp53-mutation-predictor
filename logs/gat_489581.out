@@ -1,0 +1,102 @@
+Run        : gat_thr07
+Graph      : gene_graph_thr07.npz
+Date       : Wed May  6 01:09:36 PM CEST 2026
+Host       : gnode03
+NVIDIA A100 80GB PCIe, 81920 MiB
+NVIDIA A100 80GB PCIe, 81920 MiB
+NVIDIA A100 80GB PCIe, 81920 MiB
+NVIDIA A100 80GB PCIe, 81920 MiB
+Device: cuda
+Aligned: 1673 cell lines × 2000 genes  (graph=gene_graph_thr07.npz)
+  fold 0  ep   1  loss 0.5756  val_loss 0.6642  val_auc 0.6915  val_f1 0.7398  lr 1.00e-03 *
+  fold 0  ep   2  loss 0.5636  val_loss 0.6730  val_auc 0.7006  val_f1 0.6364  lr 1.00e-03 *
+  fold 0  ep   6  loss 0.5375  val_loss 0.6413  val_auc 0.7011  val_f1 0.7393  lr 1.00e-03 *
+  fold 0  ep   9  loss 0.5327  val_loss 0.7544  val_auc 0.7027  val_f1 0.7358  lr 1.00e-03 *
+  fold 0  ep  10  loss 0.5297  val_loss 0.8874  val_auc 0.7073  val_f1 0.7398  lr 1.00e-03 *
+  fold 0  ep  13  loss 0.5269  val_loss 0.6650  val_auc 0.7096  val_f1 0.5938  lr 1.00e-03 *
+  fold 0  ep  14  loss 0.5224  val_loss 0.6770  val_auc 0.7127  val_f1 0.7403  lr 1.00e-03 *
+  fold 0  ep  18  loss 0.5298  val_loss 0.7364  val_auc 0.7159  val_f1 0.7398  lr 1.00e-03 *
+  fold 0  ep  20  loss 0.5189  val_loss 1.0155  val_auc 0.7092  val_f1 0.7398  lr 1.00e-03
+  fold 0  ep  21  loss 0.5186  val_loss 0.7106  val_auc 0.7235  val_f1 0.7421  lr 1.00e-03 *
+  fold 0  ep  24  loss 0.5206  val_loss 0.6147  val_auc 0.7293  val_f1 0.7631  lr 1.00e-03 *
+  fold 0  ep  35  loss 0.5208  val_loss 0.7090  val_auc 0.7298  val_f1 0.7421  lr 1.00e-03 *
+  fold 0  ep  40  loss 0.5131  val_loss 0.6760  val_auc 0.7233  val_f1 0.7412  lr 1.00e-03
+  fold 0  ep  44  loss 0.5158  val_loss 0.7677  val_auc 0.7309  val_f1 0.7398  lr 1.00e-03 *
+  fold 0  ep  60  loss 0.5132  val_loss 0.8275  val_auc 0.7168  val_f1 0.7398  lr 5.00e-04
+  fold 0  ep  64  loss 0.5111  val_loss 0.7451  val_auc 0.7316  val_f1 0.7421  lr 5.00e-04 *
+  fold 0  ep  80  loss 0.5078  val_loss 1.0204  val_auc 0.7064  val_f1 0.7398  lr 2.50e-04
+  fold 0  early stop at epoch 94  (best val_auc=0.7316)
+fold 0  test  AUC=0.7271  PR-AUC=0.7962  F1=0.7430  Acc=0.5910
+  fold 1  ep   1  loss 0.5696  val_loss 0.7210  val_auc 0.5765  val_f1 0.0488  lr 1.00e-03 *
+  fold 1  ep   2  loss 0.5601  val_loss 0.7732  val_auc 0.6771  val_f1 0.0000  lr 1.00e-03 *
+  fold 1  ep   5  loss 0.5438  val_loss 0.6505  val_auc 0.7181  val_f1 0.6535  lr 1.00e-03 *
+  fold 1  ep   7  loss 0.5419  val_loss 0.7075  val_auc 0.7322  val_f1 0.1818  lr 1.00e-03 *
+  fold 1  ep  15  loss 0.5296  val_loss 0.6056  val_auc 0.7431  val_f1 0.7703  lr 1.00e-03 *
+  fold 1  ep  20  loss 0.5261  val_loss 0.8537  val_auc 0.6277  val_f1 0.7358  lr 1.00e-03
+  fold 1  ep  21  loss 0.5291  val_loss 0.6012  val_auc 0.7484  val_f1 0.7850  lr 1.00e-03 *
+  fold 1  ep  40  loss 0.5246  val_loss 0.7357  val_auc 0.6679  val_f1 0.7398  lr 5.00e-04
+  fold 1  early stop at epoch 51  (best val_auc=0.7484)
+fold 1  test  AUC=0.7426  PR-AUC=0.7955  F1=0.7546  Acc=0.6388
+  fold 2  ep   1  loss 0.5752  val_loss 0.7852  val_auc 0.7035  val_f1 0.0000  lr 1.00e-03 *
+  fold 2  ep   3  loss 0.5452  val_loss 0.6903  val_auc 0.7259  val_f1 0.7461  lr 1.00e-03 *
+  fold 2  ep   4  loss 0.5399  val_loss 0.6690  val_auc 0.7411  val_f1 0.7438  lr 1.00e-03 *
+  fold 2  ep   6  loss 0.5304  val_loss 0.6530  val_auc 0.7465  val_f1 0.7438  lr 1.00e-03 *
+  fold 2  ep   9  loss 0.5246  val_loss 0.6213  val_auc 0.7552  val_f1 0.7508  lr 1.00e-03 *
+  fold 2  ep  18  loss 0.5186  val_loss 0.6967  val_auc 0.7592  val_f1 0.7438  lr 1.00e-03 *
+  fold 2  ep  20  loss 0.5133  val_loss 0.5856  val_auc 0.7612  val_f1 0.7654  lr 1.00e-03 *
+  fold 2  ep  30  loss 0.5155  val_loss 0.6281  val_auc 0.7661  val_f1 0.7468  lr 1.00e-03 *
+  fold 2  ep  39  loss 0.5088  val_loss 0.5837  val_auc 0.7687  val_f1 0.7692  lr 1.00e-03 *
+  fold 2  ep  40  loss 0.5113  val_loss 0.8260  val_auc 0.7338  val_f1 0.7438  lr 1.00e-03
+  fold 2  ep  60  loss 0.5053  val_loss 0.7693  val_auc 0.7391  val_f1 0.7438  lr 5.00e-04
+  fold 2  early stop at epoch 69  (best val_auc=0.7687)
+fold 2  test  AUC=0.6617  PR-AUC=0.7416  F1=0.7230  Acc=0.6090
+  fold 3  ep   1  loss 0.5798  val_loss 0.6883  val_auc 0.5680  val_f1 0.7273  lr 1.00e-03 *
+  fold 3  ep   3  loss 0.5485  val_loss 0.7864  val_auc 0.6534  val_f1 0.0000  lr 1.00e-03 *
+  fold 3  ep   6  loss 0.5400  val_loss 0.6410  val_auc 0.6701  val_f1 0.7394  lr 1.00e-03 *
+  fold 3  ep  11  loss 0.5364  val_loss 0.6404  val_auc 0.6719  val_f1 0.7381  lr 1.00e-03 *
+  fold 3  ep  20  loss 0.5195  val_loss 0.6934  val_auc 0.6539  val_f1 0.7176  lr 1.00e-03
+  fold 3  ep  25  loss 0.5183  val_loss 0.6635  val_auc 0.6740  val_f1 0.7296  lr 5.00e-04 *
+  fold 3  ep  28  loss 0.5121  val_loss 0.6727  val_auc 0.6745  val_f1 0.7348  lr 5.00e-04 *
+  fold 3  ep  29  loss 0.5209  val_loss 0.6453  val_auc 0.6819  val_f1 0.7500  lr 5.00e-04 *
+  fold 3  ep  40  loss 0.5154  val_loss 0.7549  val_auc 0.6765  val_f1 0.7398  lr 5.00e-04
+  fold 3  early stop at epoch 59  (best val_auc=0.6819)
+fold 3  test  AUC=0.7319  PR-AUC=0.7898  F1=0.7515  Acc=0.6317
+  fold 4  ep   1  loss 0.5655  val_loss 0.7041  val_auc 0.6410  val_f1 0.4431  lr 1.00e-03 *
+  fold 4  ep   3  loss 0.5520  val_loss 0.6477  val_auc 0.6702  val_f1 0.7127  lr 1.00e-03 *
+  fold 4  ep   5  loss 0.5379  val_loss 0.6555  val_auc 0.7185  val_f1 0.6500  lr 1.00e-03 *
+  fold 4  ep   7  loss 0.5331  val_loss 0.6557  val_auc 0.7328  val_f1 0.5957  lr 1.00e-03 *
+  fold 4  ep   9  loss 0.5278  val_loss 0.7712  val_auc 0.7404  val_f1 0.0496  lr 1.00e-03 *
+  fold 4  ep  20  loss 0.5195  val_loss 0.6675  val_auc 0.7360  val_f1 0.5057  lr 1.00e-03
+  fold 4  early stop at epoch 39  (best val_auc=0.7404)
+fold 4  test  AUC=0.6889  PR-AUC=0.7244  F1=0.0676  Acc=0.4222
+
+GAT run='gat_thr07'  graph=gene_graph_thr07.npz  feat=expr_zscore
+    accuracy: 0.5785 ± 0.0800
+   precision: 0.6326 ± 0.0361
+      recall: 0.7584 ± 0.3639
+          f1: 0.6079 ± 0.2704
+     roc_auc: 0.7105 ± 0.0304
+      pr_auc: 0.7695 ± 0.0304
+Models found (8): ['XGBoost', 'GCN[baseline]', 'GCN[gat_thr07]', 'GCN[v2_bio]', 'GCN[v2_hybrid]', 'GCN[v2_thr05]', 'GCN[v2_thr07]', 'GCN[v2_topk10]']
+Common cell lines for comparison: 1673
+
+=== Graph stats ===
+            graph  n_genes  edges_undirected  avg_degree      mode  threshold  top_k
+   gene_graph_bio     2000              1851        1.85       bio      700.0    0.0
+gene_graph_hybrid     2000             61183       61.18    hybrid      700.0    0.0
+ gene_graph_thr05     2000             59701       59.70 threshold        0.5    NaN
+ gene_graph_thr07     2000              2556        2.56 threshold        0.7   10.0
+gene_graph_topk10     2000             18131       18.13      topk        0.5   10.0
+
+=== OOF metrics (n = 1673 ) ===
+                accuracy  precision  recall      f1  roc_auc  pr_auc
+XGBoost           0.8470     0.8430  0.9097  0.8751   0.9064  0.9086
+GCN[baseline]     0.5953     0.6084  0.8793  0.7192   0.6247  0.7052
+GCN[gat_thr07]    0.5786     0.6156  0.7586  0.6797   0.6220  0.7100
+GCN[v2_bio]       0.6258     0.6996  0.6400  0.6684   0.6784  0.7404
+GCN[v2_hybrid]    0.6665     0.7086  0.7373  0.7227   0.7046  0.7599
+GCN[v2_thr05]     0.6641     0.7195  0.7049  0.7121   0.7009  0.7510
+GCN[v2_thr07]     0.6629     0.6675  0.8529  0.7489   0.7066  0.7588
+GCN[v2_topk10]    0.6461     0.7456  0.6065  0.6689   0.7040  0.7582
+
+Plots saved → /mnt/beegfsstudents/home/3415496/tp53-mutation-predictor/data/processed/plots

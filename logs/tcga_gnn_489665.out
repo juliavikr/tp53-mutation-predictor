@@ -1,0 +1,32 @@
+Run        : tcga_gat_hybrid
+Graph      : gene_graph_hybrid.npz
+Model      : gat
+Date       : Wed May  6 03:28:14 PM CEST 2026
+Host       : gnode03
+Device: cuda
+Graph: gene_graph_hybrid.npz  2000 genes  61183 undirected edges
+CCLE: (1673, 2000)
+CCLE features: (1673, 2000, 2)  (in_dim=2)
+  ep   1  loss 0.5411  val_auc 0.7137 *
+  ep   3  loss 0.5049  val_auc 0.7202 *
+  ep   5  loss 0.5079  val_auc 0.7218 *
+  ep  10  loss 0.4999  val_auc 0.7083
+  ep  13  loss 0.4983  val_auc 0.7223 *
+  ep  20  loss 0.4932  val_auc 0.7151
+  ep  30  loss 0.4833  val_auc 0.7072
+  early stop at ep 38  (best val_auc=0.7223)
+
+TCGA inference...
+  TCGA aligned: (8424, 2000)  (1851/2000 graph nodes have TCGA data)
+
+TCGA external metrics:
+               n: 8424
+        accuracy: 0.6347
+       precision: 0.0000
+          recall: 0.0000
+              f1: 0.0000
+         roc_auc: 0.3916
+          pr_auc: 0.3047
+   positive_rate: 0.3653
+
+Summary → /mnt/beegfsstudents/home/3415496/tp53-mutation-predictor/data/processed/tcga_gat_tcga_gat_hybrid_summary.json

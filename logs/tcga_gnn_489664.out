@@ -1,0 +1,51 @@
+Run        : tcga_gcn_thr07
+Graph      : gene_graph_thr07.npz
+Model      : gcn
+Date       : Wed May  6 03:25:18 PM CEST 2026
+Host       : gnode03
+Device: cuda
+Graph: gene_graph_thr07.npz  2000 genes  2556 undirected edges
+CCLE: (1673, 2000)
+CCLE features: (1673, 2000, 2)  (in_dim=2)
+  ep   1  loss 0.5770  val_auc 0.5971 *
+  ep   2  loss 0.5504  val_auc 0.6128 *
+  ep   3  loss 0.5435  val_auc 0.6359 *
+  ep   4  loss 0.5404  val_auc 0.6492 *
+  ep   5  loss 0.5370  val_auc 0.6526 *
+  ep   6  loss 0.5376  val_auc 0.6582 *
+  ep   8  loss 0.5384  val_auc 0.6639 *
+  ep   9  loss 0.5360  val_auc 0.6654 *
+  ep  10  loss 0.5341  val_auc 0.6448
+  ep  11  loss 0.5285  val_auc 0.6740 *
+  ep  13  loss 0.5315  val_auc 0.6742 *
+  ep  15  loss 0.5266  val_auc 0.6773 *
+  ep  20  loss 0.5244  val_auc 0.6773
+  ep  24  loss 0.5192  val_auc 0.6880 *
+  ep  30  loss 0.5123  val_auc 0.6197
+  ep  31  loss 0.5204  val_auc 0.6893 *
+  ep  39  loss 0.5217  val_auc 0.6908 *
+  ep  40  loss 0.5179  val_auc 0.6774
+  ep  46  loss 0.5150  val_auc 0.6966 *
+  ep  50  loss 0.5146  val_auc 0.6536
+  ep  60  loss 0.5072  val_auc 0.6843
+  ep  64  loss 0.5068  val_auc 0.7013 *
+  ep  70  loss 0.5046  val_auc 0.6880
+  ep  74  loss 0.5075  val_auc 0.7070 *
+  ep  80  loss 0.5055  val_auc 0.6975
+  ep  90  loss 0.4951  val_auc 0.7018
+  early stop at ep 99  (best val_auc=0.7070)
+
+TCGA inference...
+  TCGA aligned: (8424, 2000)  (1851/2000 graph nodes have TCGA data)
+
+TCGA external metrics:
+               n: 8424
+        accuracy: 0.6347
+       precision: 0.0000
+          recall: 0.0000
+              f1: 0.0000
+         roc_auc: 0.4109
+          pr_auc: 0.3100
+   positive_rate: 0.3653
+
+Summary → /mnt/beegfsstudents/home/3415496/tp53-mutation-predictor/data/processed/tcga_gcn_tcga_gcn_thr07_summary.json

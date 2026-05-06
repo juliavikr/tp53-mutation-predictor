@@ -6,3 +6,139 @@ NVIDIA A100 80GB PCIe, 81920 MiB
 NVIDIA A100 80GB PCIe, 81920 MiB
 NVIDIA A100 80GB PCIe, 81920 MiB
 NVIDIA A100 80GB PCIe, 81920 MiB
+Device: cuda
+Aligned: 1673 cell lines × 2000 genes  (graph=gene_graph_hybrid.npz)
+  fold 0  ep   1  loss 0.5758  val_loss 0.6517  val_auc 0.6586  val_f1 0.7324  lr 1.00e-03 *
+  fold 0  ep   3  loss 0.5457  val_loss 0.6500  val_auc 0.7067  val_f1 0.7407  lr 1.00e-03 *
+  fold 0  ep   5  loss 0.5370  val_loss 0.6942  val_auc 0.7104  val_f1 0.3636  lr 1.00e-03 *
+  fold 0  ep   6  loss 0.5334  val_loss 0.6199  val_auc 0.7189  val_f1 0.7321  lr 1.00e-03 *
+  fold 0  ep   9  loss 0.5317  val_loss 0.6085  val_auc 0.7214  val_f1 0.7258  lr 1.00e-03 *
+  fold 0  ep  10  loss 0.5253  val_loss 0.6153  val_auc 0.7260  val_f1 0.7407  lr 1.00e-03 *
+  fold 0  ep  20  loss 0.5510  val_loss 0.6173  val_auc 0.7252  val_f1 0.7466  lr 1.00e-03
+  fold 0  ep  22  loss 0.5191  val_loss 0.6047  val_auc 0.7288  val_f1 0.7265  lr 5.00e-04 *
+  fold 0  ep  23  loss 0.5188  val_loss 0.6007  val_auc 0.7302  val_f1 0.7386  lr 5.00e-04 *
+  fold 0  ep  29  loss 0.5197  val_loss 0.5997  val_auc 0.7310  val_f1 0.7451  lr 5.00e-04 *
+  fold 0  ep  40  loss 0.5190  val_loss 0.8866  val_auc 0.6363  val_f1 0.2014  lr 5.00e-04
+  fold 0  ep  41  loss 0.5142  val_loss 0.6010  val_auc 0.7314  val_f1 0.7388  lr 2.50e-04 *
+  fold 0  ep  44  loss 0.5126  val_loss 0.5970  val_auc 0.7345  val_f1 0.7597  lr 2.50e-04 *
+  fold 0  ep  48  loss 0.5147  val_loss 0.5954  val_auc 0.7351  val_f1 0.7452  lr 2.50e-04 *
+  fold 0  ep  58  loss 0.5141  val_loss 0.5991  val_auc 0.7364  val_f1 0.7509  lr 2.50e-04 *
+  fold 0  ep  60  loss 0.5135  val_loss 0.5966  val_auc 0.7353  val_f1 0.7470  lr 2.50e-04
+  fold 0  ep  67  loss 0.5100  val_loss 0.5927  val_auc 0.7391  val_f1 0.7510  lr 2.50e-04 *
+  fold 0  ep  70  loss 0.5103  val_loss 0.5929  val_auc 0.7393  val_f1 0.7589  lr 2.50e-04 *
+  fold 0  ep  80  loss 0.5106  val_loss 0.6044  val_auc 0.7268  val_f1 0.7510  lr 2.50e-04
+  fold 0  ep 100  loss 0.5075  val_loss 0.5964  val_auc 0.7307  val_f1 0.7521  lr 6.25e-05
+  fold 0  early stop at epoch 100  (best val_auc=0.7393)
+fold 0  test  AUC=0.7621  PR-AUC=0.8052  F1=0.7925  Acc=0.7343
+  fold 1  ep   1  loss 0.5726  val_loss 0.7076  val_auc 0.6112  val_f1 0.4944  lr 1.00e-03 *
+  fold 1  ep   2  loss 0.5490  val_loss 0.7079  val_auc 0.6998  val_f1 0.1538  lr 1.00e-03 *
+  fold 1  ep   7  loss 0.5433  val_loss 0.8103  val_auc 0.7297  val_f1 0.0650  lr 1.00e-03 *
+  fold 1  ep  18  loss 0.5309  val_loss 0.6094  val_auc 0.7350  val_f1 0.6816  lr 1.00e-03 *
+  fold 1  ep  19  loss 0.5344  val_loss 0.6600  val_auc 0.7516  val_f1 0.5556  lr 1.00e-03 *
+  fold 1  ep  20  loss 0.5308  val_loss 0.6635  val_auc 0.6421  val_f1 0.6963  lr 1.00e-03
+  fold 1  ep  24  loss 0.5250  val_loss 0.7112  val_auc 0.7526  val_f1 0.2797  lr 1.00e-03 *
+  fold 1  ep  26  loss 0.5253  val_loss 0.6948  val_auc 0.7553  val_f1 0.3243  lr 1.00e-03 *
+  fold 1  ep  40  loss 0.5146  val_loss 0.6598  val_auc 0.6557  val_f1 0.7273  lr 5.00e-04
+  fold 1  ep  43  loss 0.5183  val_loss 0.6114  val_auc 0.7562  val_f1 0.6699  lr 5.00e-04 *
+  fold 1  ep  45  loss 0.5170  val_loss 0.6058  val_auc 0.7631  val_f1 0.7230  lr 5.00e-04 *
+  fold 1  ep  48  loss 0.5145  val_loss 0.6020  val_auc 0.7646  val_f1 0.7477  lr 5.00e-04 *
+  fold 1  ep  60  loss 0.5138  val_loss 0.6124  val_auc 0.7100  val_f1 0.7538  lr 2.50e-04
+  fold 1  ep  78  loss 0.5095  val_loss 0.5937  val_auc 0.7666  val_f1 0.7163  lr 1.25e-04 *
+  fold 1  ep  80  loss 0.5114  val_loss 0.6009  val_auc 0.7575  val_f1 0.6857  lr 1.25e-04
+  fold 1  ep 100  loss 0.5062  val_loss 0.5839  val_auc 0.7540  val_f1 0.7200  lr 6.25e-05
+  fold 1  early stop at epoch 108  (best val_auc=0.7666)
+fold 1  test  AUC=0.7274  PR-AUC=0.7853  F1=0.7139  Acc=0.6866
+  fold 2  ep   1  loss 0.5860  val_loss 0.6385  val_auc 0.7093  val_f1 0.7191  lr 1.00e-03 *
+  fold 2  ep   4  loss 0.5364  val_loss 0.6660  val_auc 0.7296  val_f1 0.6321  lr 1.00e-03 *
+  fold 2  ep  14  loss 0.5168  val_loss 0.6015  val_auc 0.7434  val_f1 0.7297  lr 1.00e-03 *
+  fold 2  ep  15  loss 0.5140  val_loss 0.5846  val_auc 0.7478  val_f1 0.7468  lr 1.00e-03 *
+  fold 2  ep  18  loss 0.5157  val_loss 0.6027  val_auc 0.7529  val_f1 0.6990  lr 1.00e-03 *
+  fold 2  ep  20  loss 0.5132  val_loss 0.7102  val_auc 0.7084  val_f1 0.4224  lr 1.00e-03
+  fold 2  ep  21  loss 0.5178  val_loss 0.6070  val_auc 0.7555  val_f1 0.6893  lr 1.00e-03 *
+  fold 2  ep  28  loss 0.5141  val_loss 0.5821  val_auc 0.7570  val_f1 0.7378  lr 1.00e-03 *
+  fold 2  ep  33  loss 0.5160  val_loss 0.5800  val_auc 0.7591  val_f1 0.7500  lr 1.00e-03 *
+  fold 2  ep  40  loss 0.5128  val_loss 0.6665  val_auc 0.7476  val_f1 0.6146  lr 1.00e-03
+  fold 2  ep  42  loss 0.5082  val_loss 0.7070  val_auc 0.7654  val_f1 0.4756  lr 1.00e-03 *
+  fold 2  ep  60  loss 0.5067  val_loss 0.5983  val_auc 0.7489  val_f1 0.6699  lr 5.00e-04
+  fold 2  ep  71  loss 0.5012  val_loss 0.5764  val_auc 0.7661  val_f1 0.7345  lr 2.50e-04 *
+  fold 2  ep  80  loss 0.4974  val_loss 0.5835  val_auc 0.7616  val_f1 0.7091  lr 2.50e-04
+  fold 2  ep 100  loss 0.4960  val_loss 0.5792  val_auc 0.7644  val_f1 0.7368  lr 6.25e-05
+  fold 2  early stop at epoch 101  (best val_auc=0.7661)
+fold 2  test  AUC=0.6563  PR-AUC=0.7296  F1=0.6736  Acc=0.6269
+  fold 3  ep   1  loss 0.5635  val_loss 0.7210  val_auc 0.5830  val_f1 0.7181  lr 1.00e-03 *
+  fold 3  ep   2  loss 0.5450  val_loss 0.6618  val_auc 0.6378  val_f1 0.7127  lr 1.00e-03 *
+  fold 3  ep   4  loss 0.5382  val_loss 0.6565  val_auc 0.6521  val_f1 0.7317  lr 1.00e-03 *
+  fold 3  ep   6  loss 0.5427  val_loss 0.7169  val_auc 0.6630  val_f1 0.4859  lr 1.00e-03 *
+  fold 3  ep   8  loss 0.5308  val_loss 0.7007  val_auc 0.6825  val_f1 0.4972  lr 1.00e-03 *
+  fold 3  ep  11  loss 0.5267  val_loss 0.6223  val_auc 0.6993  val_f1 0.7385  lr 1.00e-03 *
+  fold 3  ep  13  loss 0.5209  val_loss 0.6184  val_auc 0.7100  val_f1 0.7442  lr 1.00e-03 *
+  fold 3  ep  20  loss 0.5199  val_loss 0.6308  val_auc 0.6811  val_f1 0.7209  lr 1.00e-03
+  fold 3  ep  40  loss 0.5095  val_loss 0.6190  val_auc 0.6969  val_f1 0.7045  lr 2.50e-04
+  fold 3  early stop at epoch 43  (best val_auc=0.7100)
+fold 3  test  AUC=0.7187  PR-AUC=0.7878  F1=0.7153  Acc=0.6377
+  fold 4  ep   1  loss 0.5700  val_loss 0.6612  val_auc 0.6734  val_f1 0.7138  lr 1.00e-03 *
+  fold 4  ep   3  loss 0.5513  val_loss 0.6717  val_auc 0.6904  val_f1 0.6442  lr 1.00e-03 *
+  fold 4  ep   4  loss 0.5338  val_loss 0.8894  val_auc 0.7004  val_f1 0.0333  lr 1.00e-03 *
+  fold 4  ep   5  loss 0.5295  val_loss 0.8074  val_auc 0.7097  val_f1 0.0000  lr 1.00e-03 *
+  fold 4  ep  11  loss 0.5222  val_loss 0.6923  val_auc 0.7181  val_f1 0.4819  lr 1.00e-03 *
+  fold 4  ep  16  loss 0.5178  val_loss 0.8674  val_auc 0.7226  val_f1 0.0813  lr 1.00e-03 *
+  fold 4  ep  20  loss 0.5248  val_loss 0.6403  val_auc 0.7119  val_f1 0.7013  lr 1.00e-03
+  fold 4  ep  24  loss 0.5218  val_loss 0.6775  val_auc 0.7263  val_f1 0.5424  lr 1.00e-03 *
+  fold 4  ep  25  loss 0.5113  val_loss 0.6541  val_auc 0.7374  val_f1 0.6283  lr 1.00e-03 *
+  fold 4  ep  40  loss 0.5060  val_loss 0.6018  val_auc 0.7244  val_f1 0.7113  lr 5.00e-04
+  fold 4  ep  48  loss 0.5060  val_loss 0.6090  val_auc 0.7395  val_f1 0.7000  lr 2.50e-04 *
+  fold 4  ep  50  loss 0.5076  val_loss 0.6080  val_auc 0.7402  val_f1 0.7059  lr 2.50e-04 *
+  fold 4  ep  54  loss 0.5073  val_loss 0.6028  val_auc 0.7408  val_f1 0.7037  lr 2.50e-04 *
+  fold 4  ep  58  loss 0.5058  val_loss 0.6005  val_auc 0.7413  val_f1 0.7027  lr 2.50e-04 *
+  fold 4  ep  60  loss 0.5067  val_loss 0.6168  val_auc 0.7416  val_f1 0.6822  lr 2.50e-04 *
+  fold 4  ep  66  loss 0.5054  val_loss 0.6128  val_auc 0.7437  val_f1 0.6852  lr 2.50e-04 *
+  fold 4  ep  76  loss 0.5022  val_loss 0.5940  val_auc 0.7447  val_f1 0.7193  lr 2.50e-04 *
+  fold 4  ep  80  loss 0.5048  val_loss 0.5900  val_auc 0.7413  val_f1 0.7197  lr 2.50e-04
+  fold 4  ep  82  loss 0.5067  val_loss 0.5984  val_auc 0.7449  val_f1 0.7059  lr 2.50e-04 *
+  fold 4  ep  91  loss 0.5029  val_loss 0.6146  val_auc 0.7456  val_f1 0.6944  lr 2.50e-04 *
+  fold 4  ep  94  loss 0.5014  val_loss 0.6094  val_auc 0.7486  val_f1 0.6912  lr 2.50e-04 *
+  fold 4  ep 100  loss 0.5010  val_loss 0.6044  val_auc 0.7472  val_f1 0.6941  lr 2.50e-04
+  fold 4  ep 110  loss 0.5018  val_loss 0.6090  val_auc 0.7512  val_f1 0.6972  lr 1.25e-04 *
+  fold 4  ep 120  loss 0.5009  val_loss 0.5863  val_auc 0.7519  val_f1 0.7404  lr 1.25e-04 *
+  fold 4  ep 134  loss 0.4968  val_loss 0.5864  val_auc 0.7528  val_f1 0.7210  lr 6.25e-05 *
+  fold 4  ep 139  loss 0.4970  val_loss 0.5919  val_auc 0.7529  val_f1 0.7200  lr 6.25e-05 *
+  fold 4  ep 140  loss 0.4972  val_loss 0.5872  val_auc 0.7539  val_f1 0.7217  lr 6.25e-05 *
+  fold 4  ep 141  loss 0.4997  val_loss 0.5879  val_auc 0.7541  val_f1 0.7249  lr 6.25e-05 *
+  fold 4  ep 151  loss 0.4968  val_loss 0.5842  val_auc 0.7542  val_f1 0.7395  lr 6.25e-05 *
+  fold 4  ep 160  loss 0.5002  val_loss 0.5945  val_auc 0.7532  val_f1 0.7054  lr 6.25e-05
+  fold 4  ep 161  loss 0.4983  val_loss 0.5849  val_auc 0.7544  val_f1 0.7382  lr 6.25e-05 *
+  fold 4  ep 162  loss 0.4978  val_loss 0.5881  val_auc 0.7554  val_f1 0.7193  lr 6.25e-05 *
+  fold 4  ep 166  loss 0.5004  val_loss 0.5824  val_auc 0.7564  val_f1 0.7398  lr 6.25e-05 *
+  fold 4  ep 180  loss 0.4969  val_loss 0.5860  val_auc 0.7553  val_f1 0.7350  lr 3.13e-05
+  fold 4  early stop at epoch 196  (best val_auc=0.7564)
+fold 4  test  AUC=0.7025  PR-AUC=0.7654  F1=0.7108  Acc=0.6467
+
+GCN run='v2_hybrid'  graph=gene_graph_hybrid.npz  feat=expr_zscore
+    accuracy: 0.6664 ± 0.0395
+   precision: 0.7108 ± 0.0374
+      recall: 0.7372 ± 0.0747
+          f1: 0.7212 ± 0.0389
+     roc_auc: 0.7134 ± 0.0346
+      pr_auc: 0.7747 ± 0.0258
+Models found (7): ['XGBoost', 'GCN[baseline]', 'GCN[v2_bio]', 'GCN[v2_hybrid]', 'GCN[v2_thr05]', 'GCN[v2_thr07]', 'GCN[v2_topk10]']
+Common cell lines for comparison: 1673
+
+=== Graph stats ===
+            graph  n_genes  edges_undirected  avg_degree      mode  threshold  top_k
+   gene_graph_bio     2000              1851        1.85       bio      700.0    0.0
+gene_graph_hybrid     2000             61183       61.18    hybrid      700.0    0.0
+ gene_graph_thr05     2000             59701       59.70 threshold        0.5    NaN
+ gene_graph_thr07     2000              2556        2.56 threshold        0.7   10.0
+gene_graph_topk10     2000             18131       18.13      topk        0.5   10.0
+
+=== OOF metrics (n = 1673 ) ===
+                accuracy  precision  recall      f1  roc_auc  pr_auc
+XGBoost           0.8470     0.8430  0.9097  0.8751   0.9064  0.9086
+GCN[baseline]     0.5953     0.6084  0.8793  0.7192   0.6247  0.7052
+GCN[v2_bio]       0.6258     0.6996  0.6400  0.6684   0.6784  0.7404
+GCN[v2_hybrid]    0.6665     0.7086  0.7373  0.7227   0.7046  0.7599
+GCN[v2_thr05]     0.6641     0.7195  0.7049  0.7121   0.7009  0.7510
+GCN[v2_thr07]     0.6629     0.6675  0.8529  0.7489   0.7066  0.7588
+GCN[v2_topk10]    0.6461     0.7456  0.6065  0.6689   0.7040  0.7582
+
+Plots saved → /mnt/beegfsstudents/home/3415496/tp53-mutation-predictor/data/processed/plots
