@@ -218,6 +218,11 @@ data/raw/
 *.parquet
 *.feather
 
+# Allow small processed artifacts so others can reproduce plots without re-running
+!data/processed/*.csv
+!data/processed/*.json
+!data/processed/*.npz
+
 # Model artifacts
 models/
 *.pkl

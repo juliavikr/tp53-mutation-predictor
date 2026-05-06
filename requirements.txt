@@ -1,11 +1,13 @@
 jupyter
 pandas
 numpy
+scipy
 matplotlib
 seaborn
 scikit-learn
 imbalanced-learn
 xgboost
-lightgbm
 torch
+torch_geometric
+optuna
 requests

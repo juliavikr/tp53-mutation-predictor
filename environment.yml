@@ -8,12 +8,15 @@ dependencies:
   - jupyter
   - pandas
   - numpy
+  - scipy
   - matplotlib
   - seaborn
   - scikit-learn
   - imbalanced-learn
   - xgboost
-  - lightgbm
   - pytorch
   - requests
   - pip
+  - pip:
+      - torch_geometric
+      - optuna

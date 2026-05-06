@@ -1,0 +1,84 @@
+Expression matrix : (1673, 19193)
+Selected top 2000 variable genes
+Spearman correlation matrix: (2000, 2000)
+Edges    : 59,701 undirected (119,402 directed)
+Avg deg  : 59.7  (|rho| >= 0.5)
+Saved graph → /mnt/beegfsstudents/home/3415496/tp53-mutation-predictor/data/processed/gene_graph.npz
+Saved Spearman matrix → /mnt/beegfsstudents/home/3415496/tp53-mutation-predictor/data/processed/spearman_corr.npz  (32.0 MB)
+Device: cuda
+Aligned dataset: 1673 cell lines × 2000 genes
+  fold 0  epoch   1  loss 0.6762
+  fold 0  epoch  10  loss 0.6753
+  fold 0  epoch  20  loss 0.6750
+  fold 0  epoch  30  loss 0.6754
+  fold 0  epoch  40  loss 0.6744
+  fold 0  epoch  50  loss 0.6737
+  fold 0  epoch  60  loss 0.6710
+  fold 0  epoch  70  loss 0.6682
+  fold 0  epoch  80  loss 0.6642
+  fold 0  epoch  90  loss 0.6598
+  fold 0  epoch 100  loss 0.6555
+fold 0  AUC=0.6960  PR-AUC=0.7779  F1=0.7431  Acc=0.6119
+  fold 1  epoch   1  loss 0.6756
+  fold 1  epoch  10  loss 0.6749
+  fold 1  epoch  20  loss 0.6740
+  fold 1  epoch  30  loss 0.6738
+  fold 1  epoch  40  loss 0.6737
+  fold 1  epoch  50  loss 0.6732
+  fold 1  epoch  60  loss 0.6740
+  fold 1  epoch  70  loss 0.6725
+  fold 1  epoch  80  loss 0.6711
+  fold 1  epoch  90  loss 0.6679
+  fold 1  epoch 100  loss 0.6656
+fold 1  AUC=0.6692  PR-AUC=0.7327  F1=0.7347  Acc=0.6119
+  fold 2  epoch   1  loss 0.6796
+  fold 2  epoch  10  loss 0.6732
+  fold 2  epoch  20  loss 0.6720
+  fold 2  epoch  30  loss 0.6719
+  fold 2  epoch  40  loss 0.6700
+  fold 2  epoch  50  loss 0.6663
+  fold 2  epoch  60  loss 0.6608
+  fold 2  epoch  70  loss 0.6503
+  fold 2  epoch  80  loss 0.6449
+  fold 2  epoch  90  loss 0.6418
+  fold 2  epoch 100  loss 0.6409
+fold 2  AUC=0.5988  PR-AUC=0.6878  F1=0.6804  Acc=0.5821
+  fold 3  epoch   1  loss 0.6789
+  fold 3  epoch  10  loss 0.6745
+  fold 3  epoch  20  loss 0.6741
+  fold 3  epoch  30  loss 0.6736
+  fold 3  epoch  40  loss 0.6736
+  fold 3  epoch  50  loss 0.6732
+  fold 3  epoch  60  loss 0.6717
+  fold 3  epoch  70  loss 0.6706
+  fold 3  epoch  80  loss 0.6772
+  fold 3  epoch  90  loss 0.6691
+  fold 3  epoch 100  loss 0.6687
+fold 3  AUC=0.6364  PR-AUC=0.7275  F1=0.7247  Acc=0.5928
+  fold 4  epoch   1  loss 0.6757
+  fold 4  epoch  10  loss 0.6726
+  fold 4  epoch  20  loss 0.6717
+  fold 4  epoch  30  loss 0.6717
+  fold 4  epoch  40  loss 0.6708
+  fold 4  epoch  50  loss 0.6677
+  fold 4  epoch  60  loss 0.6662
+  fold 4  epoch  70  loss 0.6640
+  fold 4  epoch  80  loss 0.6595
+  fold 4  epoch  90  loss 0.6582
+  fold 4  epoch 100  loss 0.6519
+fold 4  AUC=0.6127  PR-AUC=0.7041  F1=0.7081  Acc=0.5778
+
+GCN · 100 epochs · 5 folds
+    accuracy: 0.5953 ± 0.0144
+   precision: 0.6087 ± 0.0075
+      recall: 0.8792 ± 0.0667
+          f1: 0.7182 ± 0.0222
+     roc_auc: 0.6426 ± 0.0358
+      pr_auc: 0.7260 ± 0.0306
+
+=== OOF metrics (n = 1673 ) ===
+         accuracy  precision  recall      f1  roc_auc  pr_auc
+XGBoost    0.8470     0.8430  0.9097  0.8751   0.9064  0.9086
+GCN        0.5953     0.6084  0.8793  0.7192   0.6247  0.7052
+
+Plots saved → /mnt/beegfsstudents/home/3415496/tp53-mutation-predictor/data/processed/plots
