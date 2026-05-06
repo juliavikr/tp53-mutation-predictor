@@ -1,6 +1,5 @@
 name: tp53-predictor
 channels:
-  - pytorch
   - conda-forge
   - defaults
 dependencies:
