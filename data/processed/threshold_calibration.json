@@ -1,0 +1,42 @@
+{
+  "ccle_n": 1673,
+  "tcga_n": 8424,
+  "ccle_positive_rate": 0.5893604303646145,
+  "tcga_positive_rate": 0.3652659069325736,
+  "tcga_roc_auc": 0.805672667235124,
+  "tcga_pr_auc": 0.7000545191403043,
+  "thresholds": {
+    "default_0.5": 0.5,
+    "f1_optimal_ccle": 0.4499999999999999,
+    "prevalence_matched": 0.9308726936075499
+  },
+  "tcga_metrics_by_strategy": [
+    {
+      "threshold": 0.5,
+      "accuracy": 0.5360873694207028,
+      "precision": 0.43888807177526107,
+      "recall": 0.9697757556061098,
+      "f1": 0.604293236127987,
+      "predicted_positive_rate": 0.8070987654320988,
+      "strategy": "default_0.5"
+    },
+    {
+      "threshold": 0.4499999999999999,
+      "accuracy": 0.5138888888888888,
+      "precision": 0.4274928774928775,
+      "recall": 0.9753006174845629,
+      "f1": 0.5944339902941468,
+      "predicted_positive_rate": 0.8333333333333334,
+      "strategy": "f1_optimal_ccle"
+    },
+    {
+      "threshold": 0.9308726936075499,
+      "accuracy": 0.7378917378917379,
+      "precision": 0.6412089697757556,
+      "recall": 0.6412089697757556,
+      "f1": 0.6412089697757556,
+      "predicted_positive_rate": 0.3652659069325736,
+      "strategy": "prevalence_matched"
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "n_samples": 986,
+  "classes": [
+    "Missense",
+    "Truncating",
+    "Other"
+  ],
+  "class_distribution": {
+    "Missense": 628,
+    "Truncating": 113,
+    "Other": 245
+  },
+  "n_features": 2000,
+  "n_splits": 5,
+  "merge_rule": "Frame_Shift_Del + Splice_Site -> Truncating",
+  "models": {
+    "xgb": {
+      "accuracy": 0.6267748478701826,
+      "macro_f1": 0.2817169399887091,
+      "weighted_f1": 0.5065273740930967,
+      "roc_auc_ovr_macro": 0.5481657021639739,
+      "per_fold": [
+        {
+          "fold": 0,
+          "accuracy": 0.6212121212121212,
+          "macro_f1": 0.2786660744688726,
+          "weighted_f1": 0.504708421097495
+        },
+        {
+          "fold": 1,
+          "accuracy": 0.6294416243654822,
+          "macro_f1": 0.28081445368511615,
+          "weighted_f1": 0.510395246157228
+        },
+        {
+          "fold": 2,
+          "accuracy": 0.6345177664974619,
+          "macro_f1": 0.2889435785252028,
+          "weighted_f1": 0.5085136772672949
+        },
+        {
+          "fold": 3,
+          "accuracy": 0.6091370558375635,
+          "macro_f1": 0.26375661375661374,
+          "weighted_f1": 0.4882966723068246
+        },
+        {
+          "fold": 4,
+          "accuracy": 0.6395939086294417,
+          "macro_f1": 0.2957121159013903,
+          "weighted_f1": 0.52003857369836
+        }
+      ]
+    },
+    "logreg": {
+      "accuracy": 0.539553752535497,
+      "macro_f1": 0.36879477985153325,
+      "weighted_f1": 0.521930382663938,
+      "roc_auc_ovr_macro": 0.5700315212519765,
+      "per_fold": [
+        {
+          "fold": 0,
+          "accuracy": 0.5606060606060606,
+          "macro_f1": 0.39390503511947444,
+          "weighted_f1": 0.5420806542250481
+        },
+        {
+          "fold": 1,
+          "accuracy": 0.5177664974619289,
+          "macro_f1": 0.3456266519146844,
+          "weighted_f1": 0.5059617290895799
+        },
+        {
+          "fold": 2,
+          "accuracy": 0.5228426395939086,
+          "macro_f1": 0.341600970814454,
+          "weighted_f1": 0.5031734363850944
+        },
+        {
+          "fold": 3,
+          "accuracy": 0.5279187817258884,
+          "macro_f1": 0.3721737562273168,
+          "weighted_f1": 0.5104284563303134
+        },
+        {
+          "fold": 4,
+          "accuracy": 0.5685279187817259,
+          "macro_f1": 0.3799884995753982,
+          "weighted_f1": 0.5417250555714999
+        }
+      ]
+    }
+  }
+}

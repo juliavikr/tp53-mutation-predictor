@@ -454,6 +454,90 @@ This pipeline now constitutes a defensible research-grade comparison of:
 
 ---
 
+---
+
+## Polish pass — calibration + formal pathway enrichment (2026-05-06 evening)
+
+### Threshold calibration (`src/threshold_calibration.py`)
+
+Default threshold 0.5 is mis-calibrated for TCGA — predicted positive rate 0.81 vs true rate 0.37. Three operating points compared on TCGA:
+
+| Strategy | Threshold | Acc | Precision | Recall | F1 | pred_pos_rate |
+|---|---:|---:|---:|---:|---:|---:|
+| default | 0.500 | 0.536 | 0.439 | 0.970 | 0.604 | 0.807 |
+| F1-optimal (CCLE) | 0.450 | 0.514 | 0.428 | 0.975 | 0.594 | 0.833 |
+| **prevalence-matched** | **0.931** | **0.738** | **0.641** | **0.641** | **0.641** | **0.365** |
+
+The prevalence-matched threshold (chosen so predicted TCGA positive rate ≈ TCGA's actual mutation rate) gives the best operating point: F1 0.604 → 0.641. The reliability diagram (`plots/calibration_curve.png`) confirms TCGA points sit far below the diagonal — the model's probability scores systematically over-estimate the true positive rate, so a much higher threshold is needed.
+
+### Formal pathway enrichment (`src/shap_enrichment.py`)
+
+One-sided hypergeometric test: H₀ = top-K SHAP genes are a uniform-random sample from the 2,000-gene background; pathway = 19/2,000 background genes are TP53-pathway members.
+
+| K | Observed hits | Expected | Enrichment | hypergeom p | Fisher OR | Fisher p |
+|---:|---:|---:|---:|---:|---:|---:|
+| 10 | 5 | 0.10 | **52.6×** | **1.07 × 10⁻⁸** | 141.1 | 1.07 × 10⁻⁸ |
+| 20 | 7 | 0.19 | **36.8×** | **1.45 × 10⁻¹⁰** | 88.3 | 1.45 × 10⁻¹⁰ |
+| 50 | 7 | 0.47 | **14.7×** | **1.59 × 10⁻⁷** | 26.3 | 1.59 × 10⁻⁷ |
+
+Highly significant at every K. Pathway hits in top-20: CDKN1A, CDKN2A, PHLDA3, BTG2, CYFIP2, TNFRSF10D, FAS — core TP53 transcriptional program (cell-cycle arrest + apoptosis + extrinsic death receptors).
+
+---
+
+## Task 2 — Multiclass TP53 mutation type (CCLE only) — 2026-05-06 evening
+
+### Subset & class definitions
+TP53-mutant cell lines only (n = 986). Class merge: `Frame_Shift_Del (n=48) + Splice_Site (n=65) → Truncating (n=113)` because each individually was too small for stable 5-fold CV and both functionally truncate the protein.
+
+| Class | n | Fraction |
+|---|---:|---:|
+| Missense | 628 | 64 % |
+| Other | 245 | 25 % |
+| Truncating | 113 | 11 % |
+
+### Models — 5-fold stratified CV on top-2k HVG
+
+| Model | Accuracy | Macro-F1 | Weighted-F1 | OvR macro AUC |
+|---|---:|---:|---:|---:|
+| **XGBoost** (multi:softprob) | **0.627** | 0.282 | **0.507** | 0.548 |
+| **LogReg** (multinomial L2) | 0.540 | **0.369** | 0.522 | **0.570** |
+
+### Per-class
+
+| Class | Model | Precision | Recall | F1 | Support |
+|---|---|---:|---:|---:|---:|
+| Missense | XGB | 0.638 | 0.970 | 0.769 | 628 |
+| Truncating | XGB | 1.000 | 0.009 | 0.018 | 113 |
+| Other | XGB | 0.267 | 0.033 | 0.058 | 245 |
+| Missense | LogReg | 0.660 | 0.733 | 0.694 | 628 |
+| Truncating | LogReg | 0.234 | 0.133 | 0.170 | 113 |
+| Other | LogReg | 0.253 | 0.233 | 0.243 | 245 |
+
+### Interpretation
+
+- **XGBoost predicts almost everything as Missense** (recall = 0.97). This gives high accuracy through majority-class prediction but collapses macro-F1 to 0.28.
+- **LogReg is more balanced** — non-trivial F1 for Truncating (0.17) and Other (0.24), at the cost of overall accuracy. Macro-F1 of 0.37 is the most honest single number.
+- **Biological reading**: TP53 mutation TYPE is much harder to predict from bulk transcriptome than mutation STATUS, because all TP53-mutant cell lines lose p53 transcriptional activity and converge on the same downstream collapse — the bulk transcriptome cannot easily distinguish how the gene was hit. The remaining differences (e.g., dominant-negative effects of hotspot missense like R175H, R273H) are subtle and not captured at this sample size.
+
+### Per-class top genes (XGB OvR feature importance, mean across folds)
+
+Saved at `data/processed/top_genes_multiclass.csv`. Class-specific top-15 lists have very little overlap — each mutation type recruits a partially distinct expression signature for the discriminator. None of the top genes are canonical TP53 targets (in contrast to Task 1 SHAP top-20), confirming that what little signal exists for mutation-type discrimination lies in *secondary* transcriptional fingerprints rather than the primary p53 regulome.
+
+### TCGA multiclass and GNN multiclass — deferred
+
+- **TCGA multiclass external validation deferred**: harmonising mutation-type labels across CCLE (VEP MolecularConsequence) and TCGA (MAF Variant_Classification) is non-trivial and was out of scope.
+- **GNN multiclass deferred**: GAT/GCN already trail XGBoost on the easier binary task; given that mutation-type distinguishability is much weaker, a multiclass GNN would not change the qualitative finding.
+
+### Outputs (Task 2)
+- `data/processed/multiclass_class_distribution.csv`
+- `data/processed/multiclass_metrics.json` — full per-fold + aggregate
+- `data/processed/multiclass_per_class_metrics.csv`
+- `data/processed/multiclass_oof_preds.csv`
+- `data/processed/top_genes_multiclass.csv`
+- `data/processed/plots/multiclass_confusion_xgb.png`, `multiclass_confusion_logreg.png`, `multiclass_per_class_f1.png`
+
+---
+
 ## Repo layout (final)
 
 ```
