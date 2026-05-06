@@ -26,6 +26,7 @@ from sklearn.model_selection import train_test_split
 from torch_geometric.data import Data
 from torch_geometric.loader import DataLoader
 
+from gat import GAT
 from gcn import GCN
 from load_data import PROJECT_ROOT, load_ccle
 
@@ -108,6 +109,8 @@ def run(
     weight_decay: float,
     seed: int,
     proc_dir: Path,
+    model_kind: str = "gcn",
+    gat_heads: int = 4,
 ) -> dict:
     torch.manual_seed(seed)
     np.random.seed(seed)
@@ -166,14 +169,25 @@ def run(
         val_loader = DataLoader(val_set, batch_size=batch_size, shuffle=False)
         test_loader = DataLoader(test_set, batch_size=batch_size, shuffle=False)
 
-        model = GCN(
-            in_dim=in_dim,
-            hidden_dim=hidden_dim,
-            n_layers=n_layers,
-            dropout=dropout,
-            use_batch_norm=use_batch_norm,
-            use_residual=use_residual,
-        ).to(device)
+        if model_kind == "gat":
+            model = GAT(
+                in_dim=in_dim,
+                hidden_dim=hidden_dim,
+                n_layers=n_layers,
+                heads=gat_heads,
+                dropout=dropout,
+                use_batch_norm=use_batch_norm,
+                use_residual=use_residual,
+            ).to(device)
+        else:
+            model = GCN(
+                in_dim=in_dim,
+                hidden_dim=hidden_dim,
+                n_layers=n_layers,
+                dropout=dropout,
+                use_batch_norm=use_batch_norm,
+                use_residual=use_residual,
+            ).to(device)
 
         if pos_weight_mode == "balanced":
             n_pos = int((y_vals[sub_train_pos] == 1).sum())
@@ -270,11 +284,13 @@ def run(
     metric_keys = ["accuracy", "precision", "recall", "f1", "roc_auc", "pr_auc"]
     summary = {
         "run_name": run_name,
+        "model_kind": model_kind,
         "graph_file": str(graph_file),
         "feature_set": feature_set,
         "n_layers": n_layers,
         "hidden_dim": hidden_dim,
         "dropout": dropout,
+        "gat_heads": gat_heads if model_kind == "gat" else None,
         "use_batch_norm": use_batch_norm,
         "use_residual": use_residual,
         "pos_weight_mode": pos_weight_mode,
@@ -324,6 +340,8 @@ def main() -> None:
     parser.add_argument("--weight-decay", type=float, default=1e-4)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--proc-dir", type=Path, default=PROJECT_ROOT / "data" / "processed")
+    parser.add_argument("--model-kind", choices=["gcn", "gat"], default="gcn")
+    parser.add_argument("--gat-heads", type=int, default=4)
     args = parser.parse_args()
 
     summary = run(
@@ -344,8 +362,10 @@ def main() -> None:
         weight_decay=args.weight_decay,
         seed=args.seed,
         proc_dir=args.proc_dir,
+        model_kind=args.model_kind,
+        gat_heads=args.gat_heads,
     )
-    print(f"\nGCN run='{args.run_name}'  graph={args.graph_file.name}  feat={args.feature_set}")
+    print(f"\n{args.model_kind.upper()} run='{args.run_name}'  graph={args.graph_file.name}  feat={args.feature_set}")
     for key in ["accuracy", "precision", "recall", "f1", "roc_auc", "pr_auc"]:
         m = summary[f"{key}_mean"]
         s = summary[f"{key}_std"]

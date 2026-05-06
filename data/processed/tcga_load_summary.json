@@ -1,0 +1,22 @@
+{
+  "source": "UCSC Xena TCGA PanCancer Atlas hub",
+  "expr_file": "EB%2B%2BAdjustPANCAN_IlluminaHiSeq_RNASeqV2.geneExp.xena.gz",
+  "mut_file": "mc3.v0.2.8.PUBLIC.nonsilentGene.xena.gz",
+  "n_samples": 8424,
+  "n_genes_kept": 1851,
+  "n_genes_missing_vs_ccle_top2k": 149,
+  "tp53_mutant_rate": 0.3652659069325736,
+  "primary_only": true,
+  "cancer_types_top10": {
+    "BRCA": 789,
+    "LGG": 510,
+    "LUAD": 509,
+    "HNSC": 499,
+    "PRAD": 494,
+    "THCA": 490,
+    "LUSC": 477,
+    "UCEC": 436,
+    "STAD": 412,
+    "BLCA": 406
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "n_genes": 2000,
+  "string_score_threshold": 700,
+  "coexp_graph": "/mnt/beegfsstudents/home/3415496/tp53-mutation-predictor/data/processed/gene_graph_thr05.npz",
+  "bio_edges_undirected": 1851,
+  "coexp_edges_undirected": 59701,
+  "intersection": 369,
+  "union": 61183,
+  "bio_avg_degree": 1.85,
+  "coexp_avg_degree": 59.7,
+  "hybrid_avg_degree": 61.18,
+  "jaccard_similarity": 0.006,
+  "fraction_bio_in_coexp": 0.1994,
+  "fraction_coexp_in_bio": 0.0062
+}

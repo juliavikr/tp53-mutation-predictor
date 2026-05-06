@@ -1,4 +1,6 @@
 graph,n_genes,edges_undirected,avg_degree,mode,threshold,top_k
+gene_graph_bio,2000,1851,1.85,bio,700.0,0.0
+gene_graph_hybrid,2000,61183,61.18,hybrid,700.0,0.0
 gene_graph_thr05,2000,59701,59.7,threshold,0.5,
 gene_graph_thr07,2000,2556,2.56,threshold,0.699999988079071,10.0
 gene_graph_topk10,2000,18131,18.13,topk,0.5,10.0
