@@ -223,6 +223,10 @@ data/raw/
 !data/processed/*.json
 !data/processed/*.npz
 
+# But keep huge external-cohort expression matrices out of git (downloadable from Xena)
+data/processed/tcga_expression.csv
+data/processed/shap_values.npy
+
 # Model artifacts
 models/
 *.pkl

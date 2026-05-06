@@ -255,6 +255,129 @@ Wall time: thr=0.5 → 1 h 17 m, thr=0.7 → 12 m, top-k=10 → 22 m (all on A10
 
 ---
 
+## Phase 1+2+3 — Research-grade extensions (2026-05-06 morning)
+
+User explicitly asked to move from "strong ML pipeline" to a "biologically informed,
+research-grade computational oncology project." Four phases planned: biological graphs,
+interpretability, TCGA external validation, GAT. Phase 4 in progress.
+
+### Phase 1 — Biological-prior graphs (STRING + hybrid)
+
+**Source**: STRING v12.0 physical PPI (`9606.protein.physical.links.v12.0`), score ≥ 700 (high-confidence). Mapped STRING IDs → HGNC via `9606.protein.info.v12.0`, restricted to top-2k HVG.
+
+**Graph statistics** — 5 graphs now in `data/processed/`:
+
+| Graph | Mode | Spec | Edges (undirected) | Avg degree |
+|---|---|---|---:|---:|
+| `gene_graph_thr05.npz` | threshold | \|ρ\| ≥ 0.5 | 59,701 | 59.7 |
+| `gene_graph_thr07.npz` | threshold | \|ρ\| ≥ 0.7 | 2,556 | 2.6 |
+| `gene_graph_topk10.npz` | top-k | top-10 / gene | 18,131 | 18.1 |
+| **`gene_graph_bio.npz`** | STRING physical | score ≥ 700 | **1,851** | **1.85** |
+| **`gene_graph_hybrid.npz`** | union (bio ∪ thr=0.5) | — | **61,183** | **61.2** |
+
+**Bio vs co-expression overlap** (`graph_overlap.json`):
+- Intersection = 369 edges (out of 1,851 bio + 59,701 coexp)
+- **Jaccard similarity = 0.006** — STRING physical PPI and Spearman co-expression are nearly disjoint signals.
+- Only ~20 % of bio edges are also strong co-expression; ~0.6 % of co-expression edges have direct PPI support.
+- Biologically: PPI captures physical contact / post-translational interactions; co-expression captures shared transcriptional regulation. Two complementary views of "interaction".
+
+**GCN-v2 results across all 5 graphs** (5-fold CV, n=1673, same scaffold as before):
+
+| Model | Acc | Prec | Rec | F1 | ROC-AUC | PR-AUC |
+|---|---:|---:|---:|---:|---:|---:|
+| XGBoost | **0.847** | **0.843** | 0.910 | **0.875** | **0.906** | **0.909** |
+| GCN v2 thr=0.5 | 0.664 | 0.720 | 0.705 | 0.712 | 0.701 | 0.751 |
+| **GCN v2 thr=0.7** | 0.663 | 0.668 | 0.853 | **0.749** | **0.707** | **0.759** |
+| GCN v2 top-k=10 | 0.646 | 0.746 | 0.606 | 0.669 | 0.704 | 0.758 |
+| GCN v2 **bio** | 0.626 | 0.700 | 0.640 | 0.668 | 0.678 | 0.740 |
+| GCN v2 **hybrid** | 0.667 | 0.709 | 0.737 | 0.723 | 0.705 | 0.760 |
+
+**Finding**: the *bio* graph alone is too sparse for a GCN (avg degree 1.85 ⇒ poor message passing); the *hybrid* (bio + co-expression) lands on top of the co-expression-only AUC. So adding STRING physical PPI **does not help** GCN performance on this task — co-expression already captures most of what the GCN can use.
+
+### Phase 2 — Interpretability (XGBoost SHAP)
+
+`src/shap_analysis.py` trains a final XGBoost on the full CCLE cohort (no holdout) and computes per-sample SHAP values via `shap.TreeExplainer`.
+
+**Top-20 by mean |SHAP|** (annotated against curated TP53 pathway in `src/tp53_pathway.py`, 62 HGNC symbols):
+
+| Rank | Gene | Category | Mean \|SHAP\| |
+|---:|---|---|---:|
+| 1 | **CDKN1A** | TP53 direct target (p21) | **1.270** |
+| 2 | CDKN2A | wider pathway (p16) | 0.393 |
+| 3 | INPP5D | other | 0.337 |
+| 4 | **PHLDA3** | TP53 direct target | 0.311 |
+| 5 | **BTG2** | TP53 direct target | 0.230 |
+| 6 | **CYFIP2** | TP53 direct target | 0.206 |
+| 7 | AKR1C3 | other | 0.098 |
+| 8 | CNKSR1 | other | 0.098 |
+| 14 | **TNFRSF10D** | TP53 direct target (DR6) | 0.070 |
+| 17 | **FAS** | TP53 direct target | 0.069 |
+
+**Biological interpretation**:
+- **CDKN1A (p21) towers over everything (3× the next gene)** — exactly what cancer-biology textbooks predict. p21 is the canonical TP53 transcriptional target; loss of TP53 → loss of p21 induction → uncontrolled proliferation. The XGBoost has effectively learned: *high p21 = wild-type TP53*.
+- 6/20 top hits are direct TP53 targets after the curation extension; PHLDA3, BTG2, CYFIP2 were missed in the initial pathway list and added (they are well-documented direct targets).
+- The model converges on biologically coherent features without any pathway supervision.
+
+Plots: `data/processed/plots/shap_summary.png`, `shap_bar.png`, `shap_top20_pathway.png`.
+
+### Phase 3 — TCGA external validation (XGBoost, n=8,424 primary tumours)
+
+**Source**: UCSC Xena PanCancer Atlas hub.
+- `EB++AdjustPANCAN_IlluminaHiSeq_RNASeqV2.geneExp.xena.gz` — log2(norm_count+1), batch-corrected.
+- `mc3.v0.2.8.PUBLIC.nonsilentGene.xena.gz` — binary nonsilent mutation matrix (TP53 column → label).
+- `Survival_SupplementalTable_S1_20171025_xena_sp` — clinical, used to filter to primary tumours (sample-type code `01`).
+
+**Harmonisation**: 1,851 / 2,000 CCLE top-2k HVG present in TCGA (92.6 % coverage). Missing 149 are mostly newer HGNC names (e.g. `ADGR*` family, `AC055839.2`).
+
+**Domain shift** (`data/processed/plots/domain/`):
+- TP53 mutation rate: **CCLE 58.9 % vs TCGA 36.5 %** — cell lines are enriched for TP53 mutants (well-documented selection bias in immortalisation).
+- Per-cancer-type TP53 rate spans **0 % (UVM) → 91 % (UCS)**, recapitulating the textbook landscape (squamous + serous = high; pheochromocytoma + thyroid = low).
+- PCA on combined cohorts (per-cohort z-scored): PC1 = 14.5 %, PC2 = 9.7 %, top-10 PCs = 51 %. Cohorts overlap substantially in PC1-PC2, suggesting feature-level similarity is preserved under z-score normalisation.
+
+**Initial transfer (raw values, no normalisation)**:
+- TCGA AUC = **0.600**, recall = 1.0 (collapses to "predict mutant"). Failure mode caused by **expression scale shift**: CCLE log2(TPM+1) RSEM vs TCGA log2(norm_count+1) Xena are not on identical scales.
+
+**With per-cohort z-score normalisation (final protocol)**:
+
+| Metric | CCLE OOF (1851 genes) | TCGA external | Drop |
+|---|---:|---:|---:|
+| Accuracy | 0.851 | 0.536 | -0.314 |
+| Precision | 0.850 | 0.439 | -0.412 |
+| Recall | 0.906 | 0.970 | +0.064 |
+| F1 | 0.877 | 0.604 | -0.273 |
+| **ROC-AUC** | **0.904** | **0.806** | **-0.099** |
+| PR-AUC | 0.906 | 0.700 | -0.206 |
+
+**Interpretation**: ROC-AUC drops only ~0.10 from within-cohort to TCGA — the model has **real cross-cohort discriminative power**. Threshold-dependent metrics (Acc, F1, Precision) drop more because TCGA's positive rate (37 %) differs from CCLE's (59 %), so the 0.5 threshold is mis-calibrated for TCGA. A re-calibrated threshold would close the F1 gap further (out of MVP scope).
+
+**Per-cancer-type AUC (n ≥ 30, 31 types)** — top performers:
+
+| Cancer | n | TP53 rate | ROC-AUC |
+|---|---:|---:|---:|
+| SKCM | 103 | 0.087 | 0.972 |
+| PCPG | 179 | 0.006 | 0.938 |
+| READ | 89 | 0.854 | 0.879 |
+| ACC | 79 | 0.190 | 0.865 |
+| KICH | 66 | 0.318 | 0.861 |
+| UCEC | 436 | 0.392 | 0.859 |
+| LGG | 510 | 0.484 | 0.855 |
+| BRCA | 789 | 0.335 | 0.835 |
+
+The model performs above 0.7 AUC on most TCGA cancer types and above 0.85 on several — consistent across very different mutation prevalences (0.6 % to 91 %). This is the **headline result for biological generalisation**: a model trained on cell lines transfers to primary tumours with cancer-type-aware accuracy.
+
+Files: `tcga_eval_summary.json`, `tcga_xgb_oof_preds.csv`, `tcga_xgb_per_cancer_type.csv`, `plots/tcga_xgb_*.png`, `plots/domain/*.png`.
+
+### Phase 4 — GAT and GCN external validation (in progress)
+
+- `src/gat.py` — 2-layer GATConv with attention (4 heads), BatchNorm, residual.
+- `src/train_gnn.py` extended with `--model-kind gcn|gat`.
+- `jobs/train_gat.sbatch` — GAT runs on thr=0.7 + hybrid graphs (queued: 489581, 489582).
+- `src/tcga_gnn_eval.py` — drops in for GCN/GAT external validation on TCGA with the same per-cohort z-score protocol; missing-gene padding via zeros (149 / 2000 nodes pad).
+
+Pending: results from GAT runs + TCGA-GNN inference + final synthesis.
+
+---
+
 ## Repo Layout (planned)
 
 ```
