@@ -70,7 +70,7 @@ Multi-class subtypes, GAT, Optuna, and TP53-target-gene comparison are explicitl
 
 ## Autonomous Run Log (2026-05-05 evening — first end-to-end run)
 
-User instructed Claude to run the pipeline overnight without blocking on questions, choosing standard defaults. Decisions made autonomously:
+Pipeline run overnight without blocking on questions, with standard defaults applied autonomously. Decisions made:
 
 **Data**
 - DepMap release: **24Q4** (latest public). Files downloaded to `~/scratch/tp53-data/` on Bocconi HPC and symlinked into `data/raw/`.
