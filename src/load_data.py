@@ -1,5 +1,7 @@
 """Load CCLE bulk RNA-seq expression and derive per-cell-line TP53 labels."""
 
+from __future__ import annotations
+
 from pathlib import Path
 
 import pandas as pd
@@ -7,7 +9,7 @@ import pandas as pd
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_DATA_DIR = PROJECT_ROOT / "data" / "raw"
 
-EXPR_FILE = "OmicsExpressionTPMLogp1HumanProteinCodingGenes.csv"
+EXPR_FILE = "OmicsExpressionProteinCodingGenesTPMLogp1.csv"
 MUTS_FILE = "OmicsSomaticMutations.csv"
 
 # Known TP53 hotspot codons (Hess et al. 2019; COSMIC census)
@@ -68,18 +70,8 @@ def _is_hotspot(protein_changes) -> bool:
 
 
 def load_expression(data_dir: Path = DEFAULT_DATA_DIR) -> pd.DataFrame:
-    """Cell-line × gene log2(TPM+1) matrix, indexed by ModelID."""
-    raw = pd.read_csv(Path(data_dir) / EXPR_FILE, low_memory=False)
-    # First few columns are metadata; ModelID is one of them
-    meta_cols = ["SequencingID", "ModelConditionID", "ModelID",
-                 "IsDefaultEntryForMC", "IsDefaultEntryForModel"]
-    gene_cols = [c for c in raw.columns if c not in meta_cols and c != "Unnamed: 0"]
-    expr = raw.set_index("ModelID")[gene_cols]
-    # Keep only the default model condition per cell line (one row per ModelID)
-    if "IsDefaultEntryForModel" in raw.columns:
-        mask = raw["IsDefaultEntryForModel"] == "Yes"
-        expr = raw[mask].set_index("ModelID")[gene_cols]
-    return expr
+    """Cell-line × gene log2(TPM+1) matrix, indexed by ModelID. 24Q4 file is pre-filtered."""
+    return pd.read_csv(Path(data_dir) / EXPR_FILE, index_col=0)
 
 
 def load_tp53_mutations(data_dir: Path = DEFAULT_DATA_DIR) -> pd.DataFrame:
